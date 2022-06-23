@@ -43,7 +43,7 @@ update_niid <- function() {
     walk(new_csv %>% 
            map_chr(~str_subset(links_csv_candi, .)), 
          download_csv)
-  }
+  
   
   df_old <- df
   
@@ -61,4 +61,11 @@ update_niid <- function() {
   
   write_csv(df, "data.csv")
   write_csv(df_old, paste0("data_old/data_", Sys.time() %>% str_remove(":\\d\\d \\D+") %>% str_remove_all(":"), ".csv"))
+  }
+}
+
+get_new_week <- function() {
+  get_csvLink("https://www.niid.go.jp/niid/ja/data.html") %>% 
+    str_extract("\\d{4,4}-\\d\\d-teiten\\.csv$") %>% str_remove("-teiten\\.csv")
+    
 }

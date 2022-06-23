@@ -52,8 +52,11 @@ df %>% filter(prefecture == "総数") %>%
   filter(between(year, 2021, 2022)) %>% 
   ggplot(aes(week, number, colour = as.factor(year))) +
   geom_line(aes(group = year), size = 1) +
+  geom_point() 
+  
+df %>% filter(prefecture == "総数") %>% 
+  ggplot(aes(week, number, colour = as.factor(year))) +
+  geom_line(aes(group = year), size = 1) +
   geom_point() + 
   gghighlight() +
   facet_grid(rows = vars(year))
-  
-

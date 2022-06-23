@@ -1,0 +1,86 @@
+---
+date: "`r Sys.Date()`"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+library(rmdformats)
+library(rvest)
+library(xml2)
+library(pdftools)
+library(tidyverse)
+library(magrittr)
+library(gghighlight)
+library(DT)
+
+source("function_niid.R", encoding = "CP932")
+
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+
+```
+
+```{r road_previous_data}
+df <- read_csv("data.csv")
+
+```
+
+```{r update_data}
+# update data -------------------------------------------------------------
+update_niid()
+
+df <- read_csv("data.csv")
+```
+
+
+## 2012からの定点観測データ
+```{r show_data}
+datatable(df, extensions = 'Buttons',
+            options = list(dom = 'Blfrtip',
+                           buttons = c('copy', 'csv', 'excel'),
+                           lengthMenu = list(c(10,25,50,-1),
+                                             c(10,25,50,"All"))))
+```
+
+
+## 2017年からの報告者数
+```{r}
+df %>% filter(prefecture == "総数", year > 2016) %>%
+  ggplot(aes(week, number, colour = as.factor(year))) +
+  geom_line(aes(group = year), size = 1) +
+  geom_point() + 
+  gghighlight() +
+  facet_grid(rows = vars(year))
+```
+
+
+## 2021と2022シーズンの報告者数
+```{r}
+
+df %>% filter(prefecture == "総数") %>% 
+  filter(between(year, 2021, 2022)) %>% 
+  ggplot(aes(week, number, colour = as.factor(year))) +
+  geom_line(aes(group = year), size = 1) +
+  geom_point() +
+  theme(
+    legend.title = element_blank()
+  )
+
+```
+
+---
+title: "インフルエンザ感染状況 (`r get_new_week()`週) "
+---
