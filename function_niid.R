@@ -33,7 +33,7 @@ update_niid <- function() {
   
   link_latest <- get_csvLink("https://www.niid.go.jp/niid/ja/data.html")
   
-  links_csv_candi <- map_chr(paste0("https://www.niid.go.jp/niid/ja/data.html?start=", 1:5), 
+  links_csv_candi <- map_chr(paste0("https://www.niid.go.jp/niid/ja/data.html?start=", 1:6), 
                              get_csvLink) %>% 
     c(link_latest)
   

@@ -44,7 +44,14 @@ update_niid()
 
 df <- read_csv("data.csv")
 ```
+```{r}
+now_week <- get_new_week() %>% str_remove("^.*-")
+now_date <- df %>% 
+  filter(week == now_week) %>% 
+  pull(date) %>% .[1]
 
+
+```
 
 ## 2012からの定点観測データ
 ```{r show_data}
@@ -78,9 +85,21 @@ df %>% filter(prefecture == "総数") %>%
   theme(
     legend.title = element_blank()
   )
+```
 
+
+## 第`r now_week`週の報告者数の比較
+```{r}
+
+df %>% filter(prefecture == "総数") %>% 
+  filter(week == now_week) %>% 
+  ggplot(aes(as.character(year), number, fill = as.factor(year))) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  labs(x = "year") +
+  theme(
+  )
 ```
 
 ---
-title: "インフルエンザ感染状況 (`r get_new_week()`週) "
+title: "インフルエンザ感染状況 (`r get_new_week()`週`r now_date`) "
 ---
