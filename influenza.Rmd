@@ -48,6 +48,7 @@ opts_knit$set(width=75)
 
 ```
 
+
 ## 2012からの定点観測データ
 ```{r show_data}
 datatable(df, extensions = 'Buttons',
