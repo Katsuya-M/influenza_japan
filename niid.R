@@ -38,25 +38,7 @@ df <- read_csv("data.csv")
 
 # -----------------------------------------------------------------------
 
-
-
-
-df %>% filter(prefecture == "総数") %>%
-  ggplot(aes(week, fixed_point, colour = as.factor(year))) +
-  geom_line(aes(group = year), size = 1) +
-  geom_point() + 
-  gghighlight() +
-  facet_grid(rows = vars(year))
-
-df %>% filter(prefecture == "総数") %>% 
-  filter(between(year, 2021, 2022)) %>% 
-  ggplot(aes(week, number, colour = as.factor(year))) +
-  geom_line(aes(group = year), size = 1) +
-  geom_point() 
-  
-df %>% filter(prefecture == "総数") %>% 
-  ggplot(aes(week, number, colour = as.factor(year))) +
-  geom_line(aes(group = year), size = 1) +
-  geom_point() + 
-  gghighlight() +
-  facet_grid(rows = vars(year))
+now_week <- get_new_week() %>% str_remove("^.*-")
+now_date <- df %>% 
+  filter(week == now_week, year == date() %>% str_sub(-4, str_length(.))) %>% 
+  pull(date) %>% .[1]

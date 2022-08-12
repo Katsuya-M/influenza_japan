@@ -16,6 +16,7 @@ library(tidyverse)
 library(magrittr)
 library(gghighlight)
 library(DT)
+library(plotly)
 
 source("function_niid.R", encoding = "CP932")
 
@@ -23,7 +24,7 @@ source("function_niid.R", encoding = "CP932")
 ## Global options
 options(max.print="75")
 opts_chunk$set(echo=FALSE,
-	             cache=TRUE,
+	             cache=FALSE,
                prompt=FALSE,
                tidy=TRUE,
                comment=NA,
@@ -33,23 +34,17 @@ opts_knit$set(width=75)
 
 ```
 
-```{r road_previous_data}
-df <- read_csv("data.csv")
-
-```
-
 ```{r update_data}
 # update data -------------------------------------------------------------
-update_niid()
+ source("niid.R")
+# 
+# df <- read_csv("data.csv")
 
-df <- read_csv("data.csv")
-```
-```{r}
-now_week <- get_new_week() %>% str_remove("^.*-")
-now_date <- df %>% 
-  filter(week == now_week) %>% 
-  pull(date) %>% .[1]
-
+# now_week <- get_new_week() %>% str_remove("^.*-")
+# now_date <- df %>% 
+#   filter(week == now_week, year == date() %>% str_sub(-4, str_length(.))) %>% 
+#   pull(date) %>% .[1]
+# 
 
 ```
 
@@ -87,18 +82,43 @@ df %>% filter(prefecture == "総数") %>%
   )
 ```
 
+## 2012からの報告者数
+Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能です。
 
-## 第`r now_week`週の報告者数の比較
-```{r}
+```{r plotly}
+plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~number, color = ~year %>% as.factor,
+        type = "scatter", mode = "lines+markers", 
+        colors = gg_color_hue(df$year %>% unique %>% length)) 
 
-df %>% filter(prefecture == "総数") %>% 
-  filter(week == now_week) %>% 
-  ggplot(aes(as.character(year), number, fill = as.factor(year))) +
-  geom_bar(stat = "identity", show.legend = FALSE) +
-  labs(x = "year") +
-  theme(
-  )
+
 ```
+
+
+
+```{r shiny}
+# sliderInput(
+#   "Xaxis", label = "Select x axis",
+#   min = 2012, max = 2022, 
+#   value = c(2012, 2022)
+# )
+# checkboxGroupInput(
+#   "year", label = "Select year", 
+#   choices = 2012:2022, 
+#   selected = 2017:2022
+# )
+# 
+# renderPlot({
+#   df %>% filter(prefecture == "総数", year %in% as.integer(input$year)) %>%
+#   ggplot(aes(week, number, colour = as.factor(year))) +
+#   geom_line(aes(group = year), size = 1) +
+#   geom_point() + 
+#   gghighlight() +
+#   coord_cartesian(xlim = as.integer(input$Xaxis)) +
+#   facet_grid(rows = vars(year))
+# })
+
+```
+
 
 ---
 title: "インフルエンザ感染状況 (`r get_new_week()`週`r now_date`) "
