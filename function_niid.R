@@ -70,9 +70,18 @@ get_new_week <- function() {
     
 }
 
-
+now_year <- get_new_week() %>% 
+  str_sub(1,4) %>% 
+  as.integer()
+now_week <- get_new_week() %>% 
+  str_sub(6,7) %>% 
+  as.integer
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
   hcl(h = hues, l = 65, c = 100)[1:n]
 }
+
+japan01 <- sf::read_sf("../ne_10m_admin_1_states_provinces") %>% 
+  dplyr::filter(adm0_a3 == "JPN") %>% 
+  mutate(Pref = iso_3166_2 %>% str_sub(4, 5) %>% as.integer)

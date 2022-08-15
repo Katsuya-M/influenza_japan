@@ -83,8 +83,25 @@ df %>% filter(prefecture == "総数") %>%
   )
 ```
 
+## `r get_new_week()`週の報告者数
+
+```{r pref}
+japan02 <- df %>% filter(year == !!now_year, week == !!now_week) %>% 
+  filter(prefecture != "総数") %>% 
+  mutate(Pref = 1:47)
+japan01 %>% 
+  left_join(japan02, by = "Pref") %>% 
+  ggplot() + 
+  geom_sf(aes(fill = number)) + 
+  theme_void() + 
+  scale_fill_continuous(low = "#FFFFFF", 
+                        high = "#0000FF")
+
+```
+
+
 ## 2012からの報告者数
-Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能です。
+Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能。
 
 ```{r plotly}
 plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~number, color = ~year %>% as.factor,
