@@ -21,8 +21,8 @@ format_csv_flu <- function(path) {
     .[-c(1:3),] %>% 
     .[-49,] %>% 
     set_colnames(c("prefecture", "number", "fixed_point")) %>% 
-    mutate(number = number %>% str_replace("(-|?c)", "0") %>% as.integer, 
-           fixed_point = fixed_point %>% str_replace("(-|?c)", "0") %>% as.double) %>% 
+    mutate(number = number %>% str_replace("-", "0") %>% as.integer, #(-|?c)から変更
+           fixed_point = fixed_point %>% str_replace("-", "0") %>% as.double) %>%  #(-|?c)から変更
     mutate(date = raw_csv[1,1] %>% as.character) %>% 
     separate(date, c("num_week", "date"), sep = 8) %>% 
     mutate(date = str_remove_all(date, "(\\(|\\))"))
