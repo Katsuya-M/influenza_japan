@@ -71,7 +71,7 @@ df %>% filter(prefecture == "総数", year > 2016) %>%
 
 
 ## 2021と2022シーズンの報告者数
-```{r}
+```{r, fig.width=12}
 
 df %>% filter(prefecture == "総数") %>% 
   filter(between(year, 2021, 2022)) %>% 
@@ -103,7 +103,7 @@ japan01 %>%
 ## 2012からの報告者数
 Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能。
 
-```{r plotly}
+```{r plotly, fig.width=8}
 plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~number, color = ~year %>% as.factor,
         type = "scatter", mode = "lines+markers", 
         colors = gg_color_hue(df$year %>% unique %>% length)) 
