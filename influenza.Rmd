@@ -48,6 +48,7 @@ opts_knit$set(width=75)
 
 ```
 
+[感染研HP](https://www.niid.go.jp/niid/ja/data.html, "niid.go.jp")のデータを使用した。
 
 ## 2012からの定点観測データ
 ```{r show_data}
@@ -103,7 +104,7 @@ japan01 %>%
 
 
 ## 2012からの定点当たり報告数
-Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能。
+拡大・縮小、年の選択等の変更が可能です。
 
 ```{r plotly, fig.width=8}
 plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~fixed_point, color = ~year %>% as.factor,
