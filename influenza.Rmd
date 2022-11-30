@@ -60,6 +60,17 @@ datatable(df, extensions = 'Buttons',
 ```
 
 
+## 2012からの定点当たり報告数
+拡大・縮小、年の選択等の変更が可能です。
+
+```{r plotly, fig.width=8}
+plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~fixed_point, color = ~year %>% as.factor,
+        type = "scatter", mode = "lines+markers", 
+        colors = gg_color_hue(df$year %>% unique %>% length)) 
+
+
+```
+
 ## 2017年からの定点当たり報告数
 ```{r}
 df %>% filter(prefecture == "総数", year > 2016) %>%
@@ -102,17 +113,6 @@ japan01 %>%
 
 ```
 
-
-## 2012からの定点当たり報告数
-拡大・縮小、年の選択等の変更が可能です。
-
-```{r plotly, fig.width=8}
-plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~fixed_point, color = ~year %>% as.factor,
-        type = "scatter", mode = "lines+markers", 
-        colors = gg_color_hue(df$year %>% unique %>% length)) 
-
-
-```
 
 
 
