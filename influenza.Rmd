@@ -59,12 +59,13 @@ datatable(df, extensions = 'Buttons',
 ```
 
 
-## 2017年からの報告者数
+## 2017年からの定点当たり報告数
 ```{r}
 df %>% filter(prefecture == "総数", year > 2016) %>%
-  ggplot(aes(week, number, colour = as.factor(year))) +
+  ggplot(aes(week, fixed_point, colour = as.factor(year))) +
   geom_line(aes(group = year), size = 1) +
   geom_point() + 
+  ylab("定点当たり報告数") +
   gghighlight() +
   facet_grid(rows = vars(year))
 ```
@@ -83,7 +84,7 @@ df %>% filter(prefecture == "総数") %>%
   )
 ```
 
-## `r get_new_week()`週の報告者数
+## `r get_new_week()`週の定点当たり報告数
 
 ```{r pref}
 japan02 <- df %>% filter(year == !!now_year, week == !!now_week) %>% 
@@ -92,19 +93,20 @@ japan02 <- df %>% filter(year == !!now_year, week == !!now_week) %>%
 japan01 %>% 
   left_join(japan02, by = "Pref") %>% 
   ggplot() + 
-  geom_sf(aes(fill = number)) + 
+  geom_sf(aes(fill = fixed_point)) + 
   theme_void() + 
   scale_fill_continuous(low = "#FFFFFF", 
-                        high = "#0000FF")
+                        high = "#0000FF",
+                        name = "定点当たり報告数")
 
 ```
 
 
-## 2012からの報告者数
+## 2012からの定点当たり報告数
 Interactive plotになっているので、拡大・縮小、年の選択等の変更が可能。
 
 ```{r plotly, fig.width=8}
-plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~number, color = ~year %>% as.factor,
+plot_ly(df %>% filter(prefecture == "総数"), x = ~week, y = ~fixed_point, color = ~year %>% as.factor,
         type = "scatter", mode = "lines+markers", 
         colors = gg_color_hue(df$year %>% unique %>% length)) 
 
