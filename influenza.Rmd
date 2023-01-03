@@ -48,7 +48,7 @@ opts_knit$set(width=75)
 
 ```
 
-[感染研HP](https://www.niid.go.jp/niid/ja/data.html, "https://www.niid.go.jp/niid/ja/data.html")のデータを使用した。
+[感染研HP](https://www.niid.go.jp/niid/ja/data.html "https://www.niid.go.jp/niid/ja/data.html")のデータを使用した。
 
 ## 2012からの定点観測データ
 ```{r show_data}
