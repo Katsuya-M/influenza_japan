@@ -75,7 +75,7 @@ now_year <- get_new_week() %>%
   as.integer()
 now_week <- get_new_week() %>% 
   str_sub(6,7) %>% 
-  as.integer
+  as.integer()
 
 gg_color_hue <- function(n) {
   hues = seq(15, 375, length = n + 1)
