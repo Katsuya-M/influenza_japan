@@ -82,11 +82,11 @@ df %>% filter(prefecture == "総数", year > 2016) %>%
 ```
 
 
-## 2021~2023シーズンの報告者数
+## 2021~2024シーズンの報告者数
 ```{r, fig.width=12}
 
 df %>% filter(prefecture == "総数") %>% 
-  filter(between(year, 2021, 2023)) %>% 
+  filter(between(year, 2021, 2024)) %>% 
   ggplot(aes(week, number, colour = as.factor(year))) +
   geom_line(aes(group = year), size = 1) +
   geom_point() +
